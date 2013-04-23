@@ -23,9 +23,16 @@ namespace Wsdot.Geodatabase
 		private string _name;
 		private Guid _parentTypeId;
 
-		public Guid ParentTypeId
+		public GeodatabaseType(string name, Guid uuid, Guid parentTypeId)
 		{
-			get { return _parentTypeId; }
+			_name = name;
+			_uuid = uuid;
+			_parentTypeId = parentTypeId;
+		}
+
+		public Guid Uuid
+		{
+			get { return _uuid; }
 		}
 
 		public string Name
@@ -33,10 +40,9 @@ namespace Wsdot.Geodatabase
 			get { return _name; }
 		}
 
-
-		public Guid Uuid
+		public Guid ParentTypeId
 		{
-			get { return _uuid; }
+			get { return _parentTypeId; }
 		}
 
 		public override bool Equals(object obj)
@@ -46,6 +52,21 @@ namespace Wsdot.Geodatabase
 				return this.Uuid == ((GeodatabaseType)obj).Uuid;
 			}
 			return base.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			return this._uuid.GetHashCode();
+		}
+
+		public static bool operator ==(GeodatabaseType gt1, GeodatabaseType gt2)
+		{
+			return gt1._uuid.Equals(gt2);
+		}
+
+		public static bool operator !=(GeodatabaseType gt1, GeodatabaseType gt2)
+		{
+			return !gt1._uuid.Equals(gt2);
 		}
 	}
 }

@@ -20,8 +20,12 @@ namespace Wsdot.Geodatabase
 		/// </summary>
 		/// <param name="connection">A database connection to a server containing geodatabases.</param>
 		/// <returns></returns>
-		public static List<string> GetDatabaseNames(DbConnection connection)
+		public static List<string> GetDatabaseNames(IDbConnection connection)
 		{
+			if (connection == null)
+			{
+				throw new ArgumentNullException("connection");
+			}
 			// Store the initial connection state.  If the connection is already open we will leave it open instead of closing it.
 			var initConnectionState = connection.State;
 			// Store the initial database in case we need to change it.
@@ -66,6 +70,50 @@ namespace Wsdot.Geodatabase
 			{
 				// Close the connection ONLY if it was not already opened when we started.
 				if (connection != null && initConnectionState != ConnectionState.Open)
+				{
+					connection.Close();
+				}
+			}
+
+			return output;
+		}
+
+		public static List<GeodatabaseItemInfo> GetGeodatabaseInfo(IDbConnection connection)
+		{
+			if (connection == null) throw new ArgumentNullException("connection");
+
+			var initState = connection.State;
+			string initialDb = connection.Database;
+
+			List<GeodatabaseItemInfo> output = null;
+
+			try
+			{
+				if (initState != ConnectionState.Open)
+				{
+					connection.Open();
+				}
+				var command = connection.CreateCommand();
+				command.CommandText = Resources.ListFeatureClassesAndFeatureDatasets;
+				using (var reader = command.ExecuteReader())
+				{
+					output = new List<GeodatabaseItemInfo>();
+					while (reader.Read())
+					{
+						var gdbItem = new GeodatabaseItemInfo
+						{
+							Name = reader.GetString(0),
+							PhysicalName = reader.GetString(1),
+							Path = reader.GetString(2),
+							Type = new GeodatabaseType(reader.GetString(3), reader.GetGuid(4), reader.GetGuid(5))
+						};
+						output.Add(gdbItem);
+					}
+				}
+			}
+			finally
+			{
+				if (connection != null && initState != ConnectionState.Open)
 				{
 					connection.Close();
 				}
