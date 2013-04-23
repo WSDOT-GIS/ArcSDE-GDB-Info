@@ -11,7 +11,7 @@ namespace GdbDalTest
 	public class UnitTest1
 	{
 		[TestMethod]
-		public void TestMethod1()
+		public void TestDatabaseList()
 		{
 			List<string> names;
 			string connStr = Settings.Default.GdbConnectionString;
