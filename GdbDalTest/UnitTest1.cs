@@ -73,5 +73,36 @@ namespace GdbDalTest
 			}
 
 		}
+
+		[TestMethod]
+		public void TestGetXml()
+		{
+			List<GeodatabaseItemInfo> gdbItems;
+			List<string> names;
+
+			try
+			{
+				this.Connection.Open();
+				names = DataAccess.GetDatabaseNames(this.Connection);
+				Assert.IsNotNull(names, "List of database names is null.");
+				Assert.IsTrue(names.Count > 0, "List of database names is empty.");
+				string dbName = names.First();
+				this.Connection.ChangeDatabase(dbName);
+				gdbItems = DataAccess.GetGeodatabaseInfo(this.Connection);
+				var fc = gdbItems.First(i => i.Type.Name == "Feature Class");
+				// Get the XML metadata.
+				object xml = DataAccess.GetMetadataXmlByName(Connection, fc.Name);
+				////object xml = DataAccess.GetMetadataXmlByName(this.Connection, "LRS.DBO.GPSLRSStatewide");
+				Assert.IsNotNull(xml, "XML should not be null.");
+				Assert.IsInstanceOfType(xml, typeof(string), "XML should be a string, not {0}", xml.GetType());
+			}
+			finally
+			{
+				if (this.Connection != null)
+				{
+					this.Connection.Close();
+				}
+			}
+		}
 	}
 }

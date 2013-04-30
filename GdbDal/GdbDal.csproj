@@ -49,6 +49,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sql\GetMetadata.sql" />
     <Content Include="Sql\ListDatabases.sql" />
     <Content Include="Sql\ListFeatureClassesAndFeatureDatasets.sql" />
     <Content Include="Sql\ListTablesInDatabase.sql" />

@@ -121,5 +121,38 @@ namespace Wsdot.Geodatabase
 
 			return output;
 		}
+
+		public static object GetMetadataXmlByName(IDbConnection connection, string name)
+		{
+			if (connection == null) throw new ArgumentNullException("connection");
+			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("The \"name\" parameter cannot be null, empty or whitespace.");
+
+			var initState = connection.State;
+			string initialDb = connection.Database;
+
+			object xml;
+
+			try
+			{
+				var command = connection.CreateCommand();
+				command.CommandText = Resources.GetMetadata;
+				var param = command.CreateParameter();
+				param.ParameterName = "@name";
+				param.DbType = DbType.String;
+				param.Size = 226;
+				param.Value = name;
+				command.Parameters.Add(param);
+				xml = command.ExecuteScalar();
+			}
+			finally
+			{
+				if (initState != ConnectionState.Open)
+				{
+					connection.Close();
+				}
+			}
+
+			return xml;
+		}
 	}
 }

@@ -30,21 +30,36 @@ namespace Wsdot.Geodatabase
 			_parentTypeId = parentTypeId;
 		}
 
+		/// <summary>
+		/// The GUID that identifies this type. This value is what will be used to compare this <see cref="GeodatabaseType"/> 
+		/// against another <see cref="GeodatabaseType"/>.
+		/// </summary>
 		public Guid Uuid
 		{
 			get { return _uuid; }
 		}
 
+		/// <summary>
+		/// The name of the type.
+		/// </summary>
 		public string Name
 		{
 			get { return _name; }
 		}
 
+		/// <summary>
+		/// The GUID of the parent of this type.
+		/// </summary>
 		public Guid ParentTypeId
 		{
 			get { return _parentTypeId; }
 		}
 
+		/// <summary>
+		/// Compares the <see cref="Uuid"/>
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
 			if (obj != null && obj.GetType() == typeof(GeodatabaseType))
@@ -54,16 +69,32 @@ namespace Wsdot.Geodatabase
 			return base.Equals(obj);
 		}
 
+		/// <summary>
+		/// Returns the hash code of the <see cref="GeodatabaseType.Uuid"/>.
+		/// </summary>
+		/// <returns></returns>
 		public override int GetHashCode()
 		{
 			return this._uuid.GetHashCode();
 		}
 
+		/// <summary>
+		/// Determines if the <see cref="GeodatabaseType.Uuid"/> properties of two <see cref="GeodatabaseType"/> values are equal.
+		/// </summary>
+		/// <param name="gt1"></param>
+		/// <param name="gt2"></param>
+		/// <returns></returns>
 		public static bool operator ==(GeodatabaseType gt1, GeodatabaseType gt2)
 		{
 			return gt1._uuid.Equals(gt2);
 		}
 
+		/// <summary>
+		/// Determines if the <see cref="GeodatabaseType.Uuid"/> properties of two <see cref="GeodatabaseType"/> values are not equal.
+		/// </summary>
+		/// <param name="gt1"></param>
+		/// <param name="gt2"></param>
+		/// <returns></returns>
 		public static bool operator !=(GeodatabaseType gt1, GeodatabaseType gt2)
 		{
 			return !gt1._uuid.Equals(gt2);

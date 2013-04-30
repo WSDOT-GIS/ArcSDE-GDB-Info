@@ -61,6 +61,18 @@ namespace Wsdot.Geodatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -- DECLARE @name as nvarchar(226) = &apos;LRS.DBO.GPSLRSStatwide&apos;
+        ///SELECT [Documentation]
+        ///FROM [LRS].[dbo].[GDB_ITEMS]
+        ///WHERE [Name] LIKE @name.
+        /// </summary>
+        internal static string GetMetadata {
+            get {
+                return ResourceManager.GetString("GetMetadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT [name]
         ///  FROM [master].[sys].[databases]
         ///  WHERE [owner_sid] &lt;&gt; 0x01
@@ -73,10 +85,10 @@ namespace Wsdot.Geodatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT        i.Name, i.PhysicalName, i.Path, t.Name AS Type
+        ///   Looks up a localized string similar to SELECT        i.Name, i.PhysicalName, i.Path, t.Name AS Type, t.UUID AS TypeUuid, t.ParentTypeID
         ///FROM            dbo.GDB_ITEMS AS i INNER JOIN
         ///                         dbo.GDB_ITEMTYPES AS t ON i.Type = t.UUID
-        ///WHERE t.Name LIKE &apos;Feature%&apos;
+        ///WHERE        (t.Name LIKE &apos;Feature%&apos;)
         ///ORDER BY i.Path.
         /// </summary>
         internal static string ListFeatureClassesAndFeatureDatasets {
